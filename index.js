@@ -2,6 +2,7 @@ const mysql = require('mysql2');
 const inquirer = require('inquirer');
 require('console.table');
 
+// Creating DB connection
 const db = mysql.createConnection(
     {
         host: 'localhost',
@@ -11,12 +12,14 @@ const db = mysql.createConnection(
     }
 );
 
+// Connecting to DB
 db.connect(function(err) {
     if (err) throw err;
     console.log('Connected to Employees Database')
     mainPrompt();
 });
 
+// Main function to prompt user with Inquirer questions
 const mainPrompt = () => {
     inquirer
         .prompt([
@@ -56,6 +59,7 @@ const mainPrompt = () => {
     })
 }
 
+// Function to view all departments
 const viewAllDepartments = () => {
     db.query('SELECT * FROM department', (err, res) => {
         if (err) throw err;
@@ -64,6 +68,7 @@ const viewAllDepartments = () => {
     })
 }
 
+// Function to view all roles
 const viewAllRoles = () => {
     db.query('SELECT * FROM role', (err, res) => {
         if (err) throw err;
@@ -72,6 +77,7 @@ const viewAllRoles = () => {
     })
 }
 
+// Function to view all employees
 const viewAllEmployees = () => {
     db.query(`SELECT e.id, e.first_name AS "First Name", e.last_name AS "Last Name", r.title, d.name AS "Department", r.salary AS "Salary", CONCAT(m.first_name," ",m.last_name) AS "Manager"
     FROM employee e LEFT JOIN role r ON r.id = e.role_id LEFT JOIN department d ON d.id = r.department_id
@@ -82,6 +88,7 @@ const viewAllEmployees = () => {
     })
 }
 
+// Function to add a department to the db
 const addDepartment = () => {
     inquirer
         .prompt([
@@ -102,7 +109,9 @@ const addDepartment = () => {
         })
 }
 
+// Function to add a role to the db
 const addRole = () => {
+    // First we query the db for each department, so we can assign the role we create to a department
     db.query('SELECT * FROM department', (err, deptRes) => {
         if (err) throw err;
         deptRes = deptRes.map((department) => {
@@ -137,8 +146,9 @@ const addRole = () => {
         });
 };
 
-
+// Function to add an employee to the db
 const addEmployee = () => {
+    // Querying db for employees we can select the new employee's manager
     db.query('SELECT * FROM employee', (err, employeeRes) => {
         if (err) throw err;
         employeeRes = employeeRes.map((employee) => {
@@ -147,6 +157,7 @@ const addEmployee = () => {
                 value: employee.id
             }
         })
+    // Querying the db for roles so we can select the new eployee's role
     db.query('SELECT * FROM role', (err, roleRes) => {
         if (err) throw err;
         roleRes = roleRes.map((role) => {
@@ -189,6 +200,7 @@ const addEmployee = () => {
         });
 })}
 
+// Function to update an employee's role
 const updateEmployee = () => {
         db.query('SELECT * FROM employee', (err, employeeRes) => {
             if (err) throw err;
