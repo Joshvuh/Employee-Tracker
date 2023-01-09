@@ -180,8 +180,11 @@ const addEmployee = () => {
                 choices: employeeRes
             }
         ]).then((answer) => {
-                db.query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)', [answer.addEmployeeFirst.trim(), answer.addEmployeeLast.trim(), answer.employeeRole, answer.employeeManager]);
-                mainPrompt();
+                db.query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)', [answer.addEmployeeFirst.trim(), answer.addEmployeeLast.trim(), answer.employeeRole, answer.employeeManager], (err, res) => {
+                    if (err) throw err;
+                    console.log('Employee added!')
+                    mainPrompt();
+                });
             });
         });
 })}
