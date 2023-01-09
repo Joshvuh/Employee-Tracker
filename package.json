@@ -16,5 +16,11 @@
   "bugs": {
     "url": "https://github.com/Joshvuh/Employee-Tracker/issues"
   },
-  "homepage": "https://github.com/Joshvuh/Employee-Tracker#readme"
+  "homepage": "https://github.com/Joshvuh/Employee-Tracker#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "inquirer": "^8.2.4",
+    "mysql2": "^2.2.5",
+    "console.table": "0.10.0"
+  }
 }
