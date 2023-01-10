@@ -16,7 +16,7 @@
   
   ## Installation
   
-  Download the files from the repo, run npm i to load the dependencies, then run node index.js and follow the prompts.
+  Download the files from the repo, run npm i to load the dependencies, run schema.sql and seeds.sql, then run node index.js and follow the prompts.
   
   ## Usage
   
